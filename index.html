@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이룸산업 | Irum Industry</title>
+<style>
+  :root {
+    --primary: #0a3d6b;
+    --accent: #1e90ff;
+    --accent2: #00c8ff;
+    --dark: #060f1e;
+    --card: #0d1f3c;
+    --text: #e0eaff;
+    --muted: #8aa0c0;
+    --gold: #f0b429;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:1000;
+    background: rgba(6,15,30,0.92);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(30,144,255,0.2);
+    padding: 0.9rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-weight: 900; font-size: 1.15rem; color: var(--accent2); letter-spacing: 2px; }
+  .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+  .nav-links a:hover { color: var(--accent2); }
+
+  /* HERO (VIDEO) */
+  .hero {
+    position: relative;
+    background: var(--dark);
+  }
+  .hero-video-wrap {
+    position: relative;
+    width: 100%;
+    height: 120vh;
+    overflow: hidden;
+    background: #000;
+  }
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center center;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(6,15,30,0.35) 0%,
+      rgba(6,15,30,0.25) 35%,
+      rgba(6,15,30,0.55) 65%,
+      rgba(6,15,30,0.88) 100%
+    );
+    pointer-events: none;
+  }
+  .grid-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background-image: linear-gradient(rgba(30,144,255,0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(30,144,255,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-content {
+    position: absolute; z-index: 3;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 3rem 3rem;
+    max-width: 900px;
+    animation: fadeUp .9s ease both;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.65);
+    pointer-events: none;
+  }
+  .hero-btns { pointer-events: auto; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(30,144,255,0.18); border: 1px solid var(--accent);
+    color: var(--accent2); padding: 5px 18px; border-radius: 50px;
+    font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .hero-logo {
+    font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--accent2) 60%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: .4rem; letter-spacing: -1px;
+  }
+  .hero-en { font-size: clamp(.9rem, 2.5vw, 1.4rem); color: var(--muted); letter-spacing: 5px; margin-bottom: 1.2rem; }
+  .hero-desc { font-size: clamp(.9rem, 1.6vw, 1.05rem); color: var(--text); line-height: 1.9; margin-bottom: 2rem; max-width: 560px; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-stats {
+    position: relative; z-index: 2;
+    display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
+    padding: 1.8rem 3rem;
+    border-top: 1px solid rgba(30,144,255,0.18);
+    background: rgba(6,15,30,0.85);
+    backdrop-filter: blur(8px);
+    max-width: 100%;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 1.8rem; font-weight: 900; color: var(--accent2); }
+  .stat-label { font-size: .75rem; color: var(--muted); letter-spacing: 1px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  /* BUTTONS */
+  .btn { padding: 13px 28px; border-radius: 50px; font-size: .9rem; font-weight: 700; cursor: pointer; border: none; transition: all .3s; text-decoration: none; display: inline-block; }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 20px rgba(30,144,255,0.35); }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(30,144,255,0.5); }
+  .btn-outline { background: transparent; color: var(--accent2); border: 2px solid var(--accent2); }
+  .btn-outline:hover { background: rgba(0,200,255,0.1); transform: translateY(-3px); }
+
+  /* SECTIONS */
+  .section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: .72rem; letter-spacing: 4px; color: var(--accent);
+    text-transform: uppercase; margin-bottom: .7rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background: linear-gradient(var(--accent), transparent); }
+  .section-title { font-size: clamp(1.7rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: .9rem; line-height: 1.2; }
+  .section-title span { color: var(--accent2); }
+  .section-desc { color: var(--muted); line-height: 1.9; font-size: .98rem; max-width: 700px; }
+  .divider { height:1px; background: linear-gradient(90deg, transparent, rgba(30,144,255,0.25), transparent); margin: 0 2rem; }
+
+  /* CARDS */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+  .card {
+    background: var(--card); border: 1px solid rgba(30,144,255,0.14);
+    border-radius: 16px; padding: 1.8rem; transition: all .3s; position: relative; overflow: hidden; cursor: pointer;
+  }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,var(--accent),var(--accent2)); transform:scaleX(0); transition:transform .3s; }
+  .card:hover { transform: translateY(-6px); border-color: rgba(30,144,255,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .card:hover::before { transform: scaleX(1); }
+  .card-icon { font-size: 2.2rem; margin-bottom: .8rem; }
+  .card-title { font-size: 1rem; font-weight: 700; margin-bottom: .45rem; color: #fff; }
+  .card-text { color: var(--muted); font-size: .88rem; line-height: 1.7; }
+
+  /* PRODUCT GRID */
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1.5rem; margin-top: 2rem; }
+  .product-card {
+    background: var(--card); border: 1px solid rgba(30,144,255,0.14);
+    border-radius: 16px; overflow: hidden; transition: all .3s; cursor: pointer;
+  }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.45); border-color: var(--accent); }
+  .product-img {
+    width: 100%; height: 220px; object-fit: cover;
+    display: block; transition: transform .4s;
+  }
+  .product-card:hover .product-img { transform: scale(1.04); }
+  .product-img-wrap { overflow: hidden; height: 220px; position: relative; background: #0a1628; }
+  .product-img-wrap::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:60px;
+    background: linear-gradient(transparent, var(--card));
+  }
+  .product-info { padding: 1.2rem 1.4rem 1.4rem; }
+  .product-name { font-weight: 700; font-size: 1rem; margin-bottom: .4rem; color: #fff; }
+  .product-desc { color: var(--muted); font-size: .83rem; line-height: 1.65; }
+  .product-tag { display: inline-block; margin-top: .65rem; background: rgba(30,144,255,0.13); color: var(--accent2); padding: 3px 10px; border-radius: 50px; font-size: .72rem; }
+
+  /* PLC SECTION */
+  .plc-card {
+    background: var(--card); border: 1px solid rgba(30,144,255,0.14);
+    border-radius: 16px; overflow: hidden; transition: all .3s; cursor: pointer;
+  }
+  .plc-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); border-color: var(--accent); }
+  .plc-img-wrap { height: 200px; overflow: hidden; background: #040c1a; position: relative; }
+  .plc-img { width:100%; height:100%; object-fit: cover; object-position: top; transition: transform .4s; }
+  .plc-card:hover .plc-img { transform: scale(1.03); }
+  .plc-img-wrap::after { content:''; position:absolute; bottom:0; left:0; right:0; height:50px; background: linear-gradient(transparent,var(--card)); }
+  .plc-info { padding: 1.2rem 1.4rem 1.4rem; }
+  .plc-flag { font-size: 1.6rem; margin-bottom: .5rem; }
+  .plc-name { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: .4rem; }
+  .plc-text { color: var(--muted); font-size: .83rem; line-height: 1.65; }
+
+  /* INFO TABLE */
+  .info-table { width:100%; border-collapse:collapse; }
+  .info-table tr { border-bottom: 1px solid rgba(30,144,255,0.1); }
+  .info-table tr:last-child { border-bottom: none; }
+  .info-table th { padding: 1rem 1.4rem; text-align:left; color: var(--accent2); font-size: .83rem; width:155px; background: rgba(30,144,255,0.05); }
+  .info-table td { padding: 1rem 1.4rem; color: var(--text); font-size: .92rem; line-height: 1.6; }
+  .map-link { color: var(--accent2); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition: color .2s; }
+  .map-link:hover { color:#fff; }
+
+  /* BADGES */
+  .badge { display:inline-block; padding:3px 11px; border-radius:50px; font-size:.72rem; font-weight:700; }
+  .badge-blue { background:rgba(30,144,255,.14); color:var(--accent2); border:1px solid rgba(30,144,255,.3); }
+  .badge-gold { background:rgba(240,180,41,.14); color:var(--gold); border:1px solid rgba(240,180,41,.3); }
+  .badge-green { background:rgba(39,174,96,.14); color:#2ecc71; border:1px solid rgba(39,174,96,.3); }
+
+  /* TERM */
+  .term { color:var(--accent2); border-bottom:2px dashed var(--accent2); cursor:pointer; font-weight:600; transition:all .2s; }
+  .term:hover { background:rgba(0,200,255,.08); border-radius:3px; padding:0 2px; }
+  .term::after { content:'?'; font-size:.58rem; background:var(--accent2); color:#000; border-radius:50%; width:13px; height:13px; display:inline-flex; align-items:center; justify-content:center; margin-left:3px; vertical-align:super; font-weight:900; }
+
+  /* MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,.78); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center; padding:1rem;
+  }
+  .modal-overlay.active { display:flex; animation:fadeIn .2s ease; }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal {
+    background: linear-gradient(135deg,#0d1f3c,#0a1628);
+    border: 1px solid rgba(30,144,255,.4); border-radius:20px;
+    padding: 2.2rem; max-width:620px; width:100%;
+    position:relative; box-shadow:0 30px 80px rgba(0,0,0,.7);
+    animation:slideUp .3s ease; max-height:82vh; overflow-y:auto;
+  }
+  @keyframes slideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+  .modal-close { position:absolute; top:.9rem; right:.9rem; background:rgba(255,255,255,.1); border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+  .modal-close:hover { background:#e74c3c; }
+  .modal-badge { display:inline-block; background:rgba(30,144,255,.18); border:1px solid var(--accent); color:var(--accent2); padding:3px 12px; border-radius:50px; font-size:.68rem; letter-spacing:2px; margin-bottom:.7rem; }
+  .modal h2 { font-size:1.4rem; margin-bottom:.9rem; color:#fff; }
+  .modal p { color:var(--muted); line-height:1.8; font-size:.92rem; }
+  .modal ul { color:var(--muted); line-height:2; padding-left:1.2rem; font-size:.88rem; }
+  .modal-img { width:100%; border-radius:10px; margin-top:1rem; border:1px solid rgba(30,144,255,.2); }
+  .modal-wiki { margin-top:1rem; }
+  .modal-wiki a { color:var(--accent2); font-size:.78rem; text-decoration:none; display:inline-flex; align-items:center; gap:5px; border:1px solid rgba(0,200,255,.3); padding:5px 12px; border-radius:50px; transition:all .2s; }
+  .modal-wiki a:hover { background:rgba(0,200,255,.1); }
+
+  /* MAP MODAL */
+  .map-modal-content { width:100%; height:400px; border-radius:12px; overflow:hidden; margin-top:1rem; }
+  .map-modal-content iframe { width:100%; height:100%; border:none; }
+
+  /* SAFETY */
+  .safety-items { display:grid; gap:.9rem; margin-top:2rem; }
+  .safety-item { background:var(--card); border-radius:12px; padding:1.15rem 1.4rem; border-left:4px solid var(--accent); display:flex; align-items:flex-start; gap:.9rem; transition:all .3s; cursor:pointer; }
+  .safety-item:hover { transform:translateX(6px); border-color:var(--accent2); }
+  .safety-num { color:var(--accent2); font-weight:900; font-size:1.15rem; min-width:28px; }
+  .safety-text { color:var(--muted); font-size:.88rem; line-height:1.7; }
+
+  /* BIZ CARD */
+  .biz-card {
+    max-width:600px; margin:2rem auto;
+    background: linear-gradient(135deg,#0a2040,#041020);
+    border:1px solid rgba(30,144,255,.3); border-radius:22px; padding:2.3rem;
+    box-shadow:0 20px 60px rgba(0,0,0,.5); position:relative; overflow:hidden;
+  }
+  .biz-card::before { content:''; position:absolute; top:-40%; right:-15%; width:280px; height:280px; border-radius:50%; background:radial-gradient(circle,rgba(30,144,255,.07),transparent 70%); }
+  .biz-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.8rem; padding-bottom:1.4rem; border-bottom:1px solid rgba(30,144,255,.15); }
+  .biz-company { font-size:1.35rem; font-weight:900; color:#fff; }
+  .biz-company-en { font-size:.78rem; color:var(--accent2); letter-spacing:3px; margin-top:3px; }
+  .biz-role { display:inline-block; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; padding:3px 14px; border-radius:50px; font-size:.75rem; font-weight:700; margin-top:6px; }
+  .biz-logo-icon { font-size:2.4rem; }
+  .biz-person { margin-bottom:1.4rem; }
+  .biz-title { color:var(--muted); font-size:.72rem; letter-spacing:2px; }
+  .biz-name { font-size:1.5rem; font-weight:900; color:#fff; margin-top:3px; }
+  .biz-contacts { display:grid; gap:.55rem; }
+  .biz-contact-row { display:flex; align-items:center; gap:.7rem; color:var(--muted); font-size:.84rem; }
+  .biz-contact-row .ico { color:var(--accent2); font-size:.95rem; min-width:20px; }
+  .biz-contact-row a { color:var(--muted); text-decoration:none; transition:color .2s; }
+  .biz-contact-row a:hover { color:var(--accent2); }
+  .biz-address { margin-top:1.4rem; padding-top:1.4rem; border-top:1px solid rgba(30,144,255,.15); }
+  .biz-address-text { display:flex; align-items:center; gap:.7rem; color:var(--muted); font-size:.84rem; cursor:pointer; transition:color .2s; }
+  .biz-address-text:hover { color:var(--accent2); }
+
+  /* FORM */
+  .form-section { background:linear-gradient(135deg,rgba(30,144,255,.05),rgba(0,200,255,.02)); border:1px solid rgba(30,144,255,.14); border-radius:22px; padding:2.5rem; margin-top:2.5rem; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.3rem; margin-top:1.8rem; }
+  @media(max-width:600px){ .form-grid{grid-template-columns:1fr;} }
+  .form-group { display:flex; flex-direction:column; gap:.45rem; }
+  .form-group.full { grid-column:1/-1; }
+  .form-label { color:var(--accent2); font-size:.75rem; letter-spacing:2px; font-weight:700; }
+  .form-input,.form-textarea { background:rgba(10,30,60,.85); border:1px solid rgba(30,144,255,.22); border-radius:10px; padding:13px 16px; color:var(--text); font-size:.92rem; font-family:inherit; transition:all .3s; outline:none; }
+  .form-input:focus,.form-textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(30,144,255,.13); }
+  .form-input::placeholder,.form-textarea::placeholder { color:rgba(138,160,192,.45); }
+  .form-textarea { resize:vertical; min-height:115px; }
+  .form-submit { margin-top:1.3rem; width:100%; padding:15px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border:none; border-radius:12px; font-size:.95rem; font-weight:700; cursor:pointer; transition:all .3s; letter-spacing:1px; }
+  .form-submit:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(30,144,255,.4); }
+  .form-note { color:var(--muted); font-size:.78rem; margin-top:.9rem; text-align:center; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:2rem; right:2rem; z-index:99999; background:linear-gradient(135deg,#0d1f3c,#0a1628); border:1px solid rgba(30,144,255,.4); border-radius:12px; padding:.9rem 1.4rem; color:#fff; display:flex; align-items:center; gap:.7rem; box-shadow:0 10px 30px rgba(0,0,0,.5); transform:translateY(100px); opacity:0; transition:all .4s ease; max-width:300px; }
+  .toast.show { transform:translateY(0); opacity:1; }
+  .toast-icon { font-size:1.4rem; }
+
+  /* ORG */
+  .org-box { background:var(--card); border:1px solid rgba(30,144,255,.14); border-radius:16px; padding:2rem; text-align:center; margin-top:2rem; }
+  .org-row { display:flex; justify-content:center; align-items:center; gap:1rem; flex-wrap:wrap; margin:.8rem 0; }
+  .org-node { background:rgba(30,144,255,.1); border:1px solid rgba(30,144,255,.28); border-radius:10px; padding:.65rem 1.3rem; color:var(--text); font-weight:600; font-size:.88rem; }
+  .org-top { background:linear-gradient(135deg,rgba(30,144,255,.2),rgba(0,200,255,.1)); border-color:var(--accent2); color:#fff; font-size:.95rem; }
+
+  /* HMI GALLERY */
+  .hmi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.2rem; margin-top:2rem; }
+  .hmi-img-wrap { border-radius:12px; overflow:hidden; border:1px solid rgba(30,144,255,.2); cursor:pointer; transition:all .3s; }
+  .hmi-img-wrap:hover { transform:scale(1.02); box-shadow:0 12px 30px rgba(0,0,0,.4); border-color:var(--accent); }
+  .hmi-img-wrap img { width:100%; height:200px; object-fit:cover; object-position:top; display:block; }
+  .hmi-label { background:var(--card); padding:.7rem 1rem; font-size:.82rem; color:var(--muted); text-align:center; }
+
+  footer { background:#030810; border-top:1px solid rgba(30,144,255,.1); padding:2rem; text-align:center; color:var(--muted); font-size:.83rem; }
+  .footer-brand { color:var(--accent2); font-weight:700; font-size:1.05rem; margin-bottom:.5rem; }
+
+  @media(max-width:768px) {
+    .nav-links{display:none;}
+    .hero-video-wrap{height:120vh;}
+    .hero-content{padding:4.5rem 1.5rem 2rem;}
+    .hero-stats{padding:1.2rem 1.5rem; gap:1.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚡ 이룸산업</div>
+  <div class="nav-links">
+    <a href="#about">회사소개</a>
+    <a href="#business">사업분야</a>
+    <a href="#products">주요품목</a>
+    <a href="#plc">PLC 프로그래밍</a>
+    <a href="#hmi">HMI 작화</a>
+    <a href="#safety">안전경영</a>
+    <a href="#contact">견적문의</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-video-wrap">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="이룸영상.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Smart AI Engineering</div>
+      <div class="hero-logo">이룸산업</div>
+      <div class="hero-en">IRUM INDUSTRY</div>
+      <p class="hero-desc">
+        산업전기자동화 · 스마트 AI 엔지니어링<br>
+        정직과 성실로써 산업자동화를 구축하는 전문 기업입니다.
+      </p>
+      <div class="hero-btns">
+        <a href="#about" class="btn btn-primary">회사 소개 보기</a>
+        <a href="#contact" class="btn btn-outline">견적 문의하기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hero-stats">
+  <div class="stat-item"><div class="stat-num">2025</div><div class="stat-label">설립연도</div></div>
+  <div class="stat-item"><div class="stat-num">4+</div><div class="stat-label">사업 분야</div></div>
+  <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">주요 제품</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">신뢰 경영</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-label">ABOUT US</div>
+  <div class="section-title">신뢰를 기반으로<br><span>고객과 함께 성장</span>하겠습니다</div>
+  <p class="section-desc">
+    당사는 정직과 성실로써 산업자동화를 구축하는 회사로 성장했습니다.
+    저희 이룸산업은 전기 자동화 판넬 제작 업체로 <span class="term" onclick="openModal('sequence')">시퀀스</span> 기반의 전기회로 및 스마트 스위칭,
+    <span class="term" onclick="openModal('ai')">AI</span> 기반의 <span class="term" onclick="openModal('plc-term')">PLC</span>,
+    <span class="term" onclick="openModal('hmi-term')">HMI</span> 프로그램 등을 취급합니다.
+    <span class="term" onclick="openModal('highvoltage')">고압</span> 및 <span class="term" onclick="openModal('lowvoltage')">저압반</span>,
+    <span class="term" onclick="openModal('explosion')">방폭</span>, 등기구 및 전기 기자재 등을 납품·설치합니다.
+  </p>
+  <div class="grid-3">
+    <div class="card" onclick="openModal('automation')">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">자동화 판넬 제작</div>
+      <div class="card-text">시퀀스 기반 전기회로 설계 및 스마트 스위칭 판넬 제작·설치 일괄 서비스</div>
+    </div>
+    <div class="card" onclick="openModal('plc-term')">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">PLC / HMI 프로그래밍</div>
+      <div class="card-text">AB, SIEMENS, MITSUBISHI, LS 브랜드 PLC·HMI 프로그램 전문 개발</div>
+    </div>
+    <div class="card" onclick="openModal('highvoltage')">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">고압·저압반 설치</div>
+      <div class="card-text">고압·저압반, Inverter, MCC, PDP 등 전기설비 납품 및 설치</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPANY INFO -->
+<section class="section" id="info">
+  <div class="section-label">COMPANY INFO</div>
+  <div class="section-title">회사 <span>기본 정보</span></div>
+  <div class="card" style="margin-top:2rem;padding:0;overflow:hidden;">
+    <table class="info-table">
+      <tr><th>회사명</th><td><strong>이룸산업</strong> <span class="badge badge-blue" style="margin-left:6px;">Irum Industry</span></td></tr>
+      <tr><th>대표</th><td>임 채 국</td></tr>
+      <tr><th>사업자번호</th><td>140-76-00642</td></tr>
+      <tr><th>설립일자</th><td>2025년 12월 11일 <span class="badge badge-green" style="margin-left:6px;">신설법인</span></td></tr>
+      <tr><th>소재지</th><td>
+        <span class="map-link" onclick="openMapModal()">
+          📍 전라남도 여수시 율촌면 구암길 201 <span style="font-size:.75rem;color:var(--muted);">(지도 보기 ↗)</span>
+        </span>
+      </td></tr>
+      <tr><th>연락처</th><td>T: <a href="tel:061-681-0510" style="color:var(--accent2);">061-681-0510</a> &nbsp;|&nbsp; F: 061-681-0511</td></tr>
+      <tr><th>이메일</th><td><a href="mailto:limck2168@naver.com" style="color:var(--accent2);">limck2168@naver.com</a></td></tr>
+      <tr><th>사업분야</th><td>
+        <span class="badge badge-blue">산업기계제조업</span>
+        <span class="badge badge-blue" style="margin:0 4px;">자동화판넬제작</span>
+        <span class="badge badge-gold">전기자재도소매</span>
+        <span class="badge badge-green">산업프로그램제작</span>
+      </td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUSINESS -->
+<section class="section" id="business">
+  <div class="section-label">BUSINESS AREAS</div>
+  <div class="section-title">주요 <span>사업 분야</span></div>
+  <div class="grid-2">
+    <div class="card" onclick="openModal('automation')">
+      <div class="card-icon">🏭</div>
+      <div class="card-title">자동화 판넬 제작 · 설치</div>
+      <div class="card-text">
+        <span class="term" onclick="event.stopPropagation();openModal('sequence')">시퀀스</span> 기반 전기회로 설계·제작. 공장 자동화 라인에 필요한 각종 제어 판넬을 설계부터 설치·시운전까지 원스톱 제공합니다.
+      </div>
+    </div>
+    <div class="card" onclick="openModal('plc-term')">
+      <div class="card-icon">💻</div>
+      <div class="card-title">산업 프로그램 제작 및 서비스</div>
+      <div class="card-text">
+        <span class="term" onclick="event.stopPropagation();openModal('plc-term')">PLC</span> (AB/SIEMENS/MITSUBISHI/LS) 프로그래밍,
+        <span class="term" onclick="event.stopPropagation();openModal('hmi-term')">HMI</span> 작화 개발,
+        <span class="term" onclick="event.stopPropagation();openModal('ai')">AI</span> 기반 스마트 엔지니어링 서비스.
+      </div>
+    </div>
+    <div class="card" onclick="openModal('highvoltage')">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">고압 · 저압반 공급 설치</div>
+      <div class="card-text">
+        <span class="term" onclick="event.stopPropagation();openModal('highvoltage')">고압반</span>,
+        <span class="term" onclick="event.stopPropagation();openModal('lowvoltage')">저압반</span>,
+        <span class="term" onclick="event.stopPropagation();openModal('inverter')">인버터</span>,
+        <span class="term" onclick="event.stopPropagation();openModal('mcc')">MCC</span>,
+        <span class="term" onclick="event.stopPropagation();openModal('pdp')">PDP</span> 등 전기설비 납품·설치 서비스.
+      </div>
+    </div>
+    <div class="card" onclick="openModal('electrical')">
+      <div class="card-icon">🔧</div>
+      <div class="card-title">전기 기자재 도소매</div>
+      <div class="card-text">
+        <span class="term" onclick="event.stopPropagation();openModal('explosion')">방폭</span> 제품, 등기구, 전기 기자재 등 산업용 전기 부품 전반을 신속하게 공급합니다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <div class="section-label">MAIN PRODUCTS</div>
+  <div class="section-title">이룸산업 <span>주요 품목</span></div>
+  <p class="section-desc">실제 납품·제작한 제품 이미지입니다. 클릭하면 상세 설명을 확인할 수 있습니다.</p>
+  <div class="product-grid">
+
+    <div class="product-card" onclick="openModal('mcc')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image6.png" alt="MCC UNIT">
+      </div>
+      <div class="product-info">
+        <div class="product-name">MCC UNIT</div>
+        <div class="product-desc">Motor Control Center — 복수 모터를 통합 제어하는 대형 배전반 유닛.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('pdp')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image5.png" alt="PDP PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">PDP PANEL</div>
+        <div class="product-desc">Power Distribution Panel — 전력 분배 판넬. 수전 전력을 각 부하에 분배.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('mcc2')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image7.jpeg" alt="제어판넬">
+      </div>
+      <div class="product-info">
+        <div class="product-name">제어 판넬</div>
+        <div class="product-desc">시퀀스 기반 전기회로 설계 — 스위치, 릴레이, 마그네트 통합 제어 판넬.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('inverter')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image8.jpeg" alt="INVERTER PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">INVERTER PANEL</div>
+        <div class="product-desc">인버터 판넬 — 모터 속도 가변 제어, 에너지 효율 극대화 장치.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('explosion')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image9.jpeg" alt="방폭 PANEL" style="object-position:center;">
+      </div>
+      <div class="product-info">
+        <div class="product-name">방폭 PANEL (조작부)</div>
+        <div class="product-desc">위험 지역(가스·분진)에서 사용하는 방폭 인증 전기 제어 조작반.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('explosion2')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image10.jpeg" alt="방폭 외함 PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">방폭 PANEL (외함)</div>
+        <div class="product-desc">POSCO 납품용 스테인리스 방폭 외함 제어 판넬. 현장 설치 사례.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('acb')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image11.jpeg" alt="ACB PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">ACB PANEL</div>
+        <div class="product-desc">대형 제어 판넬 — 차단기·계측기·HMI 터치패널 통합 전기 제어반.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('relay')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image12.png" alt="RELAY PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">RELAY PANEL</div>
+        <div class="product-desc">대규모 릴레이 판넬 — 수백 개 접점을 정밀 배선한 고밀도 제어반.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('pump')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image13.jpeg" alt="PUMP PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">PUMP / MCC PANEL</div>
+        <div class="product-desc">펌프 모터 전용 MCC 판넬 — 자동 수위 제어 및 다중 펌프 교대 운전.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="openModal('plc-panel')">
+      <div class="product-img-wrap">
+        <img class="product-img" src="images/image14.jpg" alt="PLC PANEL">
+      </div>
+      <div class="product-info">
+        <div class="product-name">PLC PANEL</div>
+        <div class="product-desc">Siemens PLC 탑재 제어 판넬 — 복잡한 자동화 로직을 집약한 고성능 제어반.</div>
+        <span class="product-tag">클릭하여 상세 설명 ↗</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PLC PROGRAMMING -->
+<section class="section" id="plc">
+  <div class="section-label">PLC PROGRAMMING</div>
+  <div class="section-title"><span>PLC 프로그래밍</span> 전문 서비스</div>
+  <p class="section-desc">
+    세계 4대 <span class="term" onclick="openModal('plc-term')">PLC</span> 브랜드 전문 프로그래밍 서비스를 제공합니다.
+    <span class="term" onclick="openModal('ladder')">래더 다이어그램</span> 기반으로 정확하고 안정적인 자동화 로직을 구현합니다.
+  </p>
+  <div class="grid-2" style="margin-top:2rem;">
+
+    <div class="plc-card" onclick="openModal('ab-plc')">
+      <div class="plc-img-wrap">
+        <img class="plc-img" src="images/image16.png" alt="AB PLC RSLogix 래더 다이어그램">
+      </div>
+      <div class="plc-info">
+        <div class="plc-flag">🇺🇸</div>
+        <div class="plc-name">AB PLC (Allen-Bradley)</div>
+        <div class="plc-text">Rockwell Automation — RSLogix 5000 / Studio 5000 기반. 대규모 공장 자동화에 최적. 실제 작성 래더 다이어그램 이미지.</div>
+      </div>
+    </div>
+
+    <div class="plc-card" onclick="openModal('ls-plc')">
+      <div class="plc-img-wrap">
+        <img class="plc-img" src="images/image18.png" alt="LS PLC XG5000 래더 다이어그램">
+      </div>
+      <div class="plc-info">
+        <div class="plc-flag">🇰🇷</div>
+        <div class="plc-name">LS PLC (LS ELECTRIC)</div>
+        <div class="plc-text">국산 LS ELECTRIC — XG5000 기반. 국내 산업 현장에 최적화. 한글 태그명으로 유지보수 편리.</div>
+      </div>
+    </div>
+
+    <div class="plc-card" onclick="openModal('melsec-plc')">
+      <div class="plc-img-wrap">
+        <img class="plc-img" src="images/image21.png" alt="MELSEC PLC GX Developer">
+      </div>
+      <div class="plc-info">
+        <div class="plc-flag">🇯🇵</div>
+        <div class="plc-name">MELSEC PLC (MITSUBISHI)</div>
+        <div class="plc-text">미쓰비시 GX Works / GX Developer 기반. 고속 처리와 안정성이 강점. FBD 방식 알람 로직 구현.</div>
+      </div>
+    </div>
+
+    <div class="plc-card" onclick="openModal('siemens-plc')">
+      <div class="plc-img-wrap">
+        <img class="plc-img" src="images/image15.png" alt="AB PLC 래더 다이어그램 추가">
+      </div>
+      <div class="plc-info">
+        <div class="plc-flag">🇩🇪</div>
+        <div class="plc-name">SIEMENS PLC (TIA Portal)</div>
+        <div class="plc-text">독일 SIEMENS S7 시리즈 — TIA Portal 기반. 유럽 표준. 자동차·화학·제약 산업 최적화.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HMI -->
+<section class="section" id="hmi">
+  <div class="section-label">HMI SOLUTION</div>
+  <div class="section-title"><span>HMI 작화</span> 서비스</div>
+  <p class="section-desc">
+    <span class="term" onclick="openModal('hmi-term')">HMI (Human Machine Interface)</span> 작화란 현장 설비 상태를 시각적으로 모니터링·제어할 수 있는 화면(미믹 다이어그램)을 설계·제작하는 작업입니다.
+    이룸산업은 직관적이고 안전한 HMI 화면을 설계합니다.
+  </p>
+  <div class="hmi-grid">
+    <div class="hmi-img-wrap" onclick="openImgModal('images/image23.png','HMI 작화 개발 화면 — 가열 공정 미믹 다이어그램 설계 중')">
+      <img src="images/image23.png" alt="HMI 작화 개발 화면">
+      <div class="hmi-label">HMI 작화 개발 화면 (미믹 다이어그램)</div>
+    </div>
+    <div class="hmi-img-wrap" onclick="openImgModal('images/image24.jpeg','HMI 실제 운전 화면 — 수처리 공정 통합 모니터링')">
+      <img src="images/image24.jpeg" alt="HMI 실제 운전 화면">
+      <div class="hmi-label">HMI 실제 운전 화면 (현장 모니터)</div>
+    </div>
+  </div>
+  <div class="grid-3" style="margin-top:1.5rem;">
+    <div class="card"><div class="card-icon">📊</div><div class="card-title">공정 모니터링</div><div class="card-text">실시간 공정 데이터 시각화 및 알람 관리 화면 설계</div></div>
+    <div class="card"><div class="card-icon">🎮</div><div class="card-title">원격 제어</div><div class="card-text">터치스크린 기반 직관적 설비 제어 인터페이스 구현</div></div>
+    <div class="card"><div class="card-icon">📈</div><div class="card-title">데이터 로깅</div><div class="card-text">생산 이력·에너지 데이터 기록 및 트렌드 리포트</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SAFETY -->
+<section class="section" id="safety">
+  <div class="section-label">SAFETY &amp; HEALTH</div>
+  <div class="section-title">안전보건 <span>경영 방침</span></div>
+  <p class="section-desc">
+    이룸산업은 경영활동 전반에 전 사원의 안전과 보건을 기업의 최우선 가치로 인식하고,
+    <span class="term" onclick="openModal('serious-accident')">중대재해처벌법</span> 시행령에 따른 안전보건관리체계를 구축합니다.
+  </p>
+  <div class="safety-items">
+    <div class="safety-item" onclick="openModal('safety1')">
+      <div class="safety-num">01</div>
+      <div class="safety-text">경영책임자는 <strong>'근로자의 생명 보호'</strong>와 <strong>'안전한 작업환경 조성'</strong>을 기업경영의 최우선 목표로 삼는다.</div>
+    </div>
+    <div class="safety-item" onclick="openModal('safety2')">
+      <div class="safety-num">02</div>
+      <div class="safety-text">안전보건관리체계를 구축하여 위험요인 제거·통제를 위한 충분한 인적·물적 자원을 제공한다.</div>
+    </div>
+    <div class="safety-item" onclick="openModal('safety3')">
+      <div class="safety-num">03</div>
+      <div class="safety-text">안전보건 목표를 설정하고, 세부적인 실행계획을 수립하여 이행한다.</div>
+    </div>
+    <div class="safety-item" onclick="openModal('safety4')">
+      <div class="safety-num">04</div>
+      <div class="safety-text">근로자 참여로 위험요인을 파악하고, 파악된 위험요인은 반드시 개선·교육을 통해 공유한다.</div>
+    </div>
+    <div class="safety-item" onclick="openModal('safety5')">
+      <div class="safety-num">05</div>
+      <div class="safety-text">모든 공급자·계약자가 당사의 안전보건 방침과 안전 요구사항을 준수하도록 한다.</div>
+    </div>
+  </div>
+  <div style="text-align:right;margin-top:1.4rem;color:var(--muted);font-size:.84rem;">
+    2025년 12월 11일 &nbsp;|&nbsp; 대표 <strong style="color:var(--text);">임 채 국</strong>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INQUIRY -->
+<section class="section" id="contact">
+  <div class="section-label">CONTACT</div>
+  <div class="section-title">고객 <span>견적 문의</span></div>
+  <p class="section-desc">아래 양식을 작성하시면 담당자가 빠르게 연락드립니다.</p>
+  <div class="form-section">
+    <form id="inquiryForm" onsubmit="submitForm(event)">
+      <!-- Web3Forms 설정 (access_key는 https://web3forms.com 에서 발급) -->
+      <input type="hidden" name="access_key" value="2a098269-8fa9-44cb-ae49-80ef716b2239">
+      <input type="hidden" name="subject" value="[이룸산업 견적문의]">
+      <input type="hidden" name="from_name" value="이룸산업 웹사이트">
+      <input type="hidden" name="redirect" value="false">
+      <input type="hidden" name="to" value="limck2168@naver.com">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">회사명 *</label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="회사명을 입력해주세요" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">성함 *</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="담당자 성함" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">연락처 *</label>
+          <input class="form-input" type="tel" id="phone" name="phone" placeholder="010-0000-0000" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">이메일</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="이메일 주소 (선택)">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">문의 내용 *</label>
+          <textarea class="form-textarea" id="message" name="message" placeholder="문의하실 내용을 입력해주세요&#10;(예: 자동화 판넬 제작 견적, PLC 프로그래밍 서비스 문의 등)" required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="form-submit" id="submitBtn">✉️ 견적 문의 전송하기</button>
+      <p class="form-note">문의 내용은 <strong style="color:var(--accent2);">limck2168@naver.com</strong> 으로 전송됩니다. 영업일 기준 1~2일 내 회신드립니다.</p>
+    </form>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">⚡ IRUM INDUSTRY · 이룸산업</div>
+  <div style="margin-top:.5rem;">전남 여수시 율촌면 구암길 201 &nbsp;|&nbsp; Tel: 061-681-0510 &nbsp;|&nbsp; limck2168@naver.com</div>
+  <div style="margin-top:.4rem;">사업자번호: 140-76-00642 &nbsp;|&nbsp; 대표: 임채국</div>
+  <div style="margin-top:1rem;font-size:.72rem;color:rgba(138,160,192,.35);">© 2025 Irum Industry. All rights reserved.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div id="modalBadge" class="modal-badge"></div>
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+    <div class="modal-wiki" id="modalWiki"></div>
+  </div>
+</div>
+
+<!-- IMAGE MODAL -->
+<div class="modal-overlay" id="imgModalOverlay" onclick="closeImgModal(event)">
+  <div class="modal" style="max-width:900px;padding:1.5rem;">
+    <button class="modal-close" onclick="document.getElementById('imgModalOverlay').classList.remove('active');document.body.style.overflow=''">✕</button>
+    <p id="imgModalCaption" style="color:var(--muted);font-size:.85rem;margin-bottom:.8rem;"></p>
+    <img id="imgModalSrc" src="" alt="" style="width:100%;border-radius:12px;border:1px solid rgba(30,144,255,.2);">
+  </div>
+</div>
+
+<!-- MAP MODAL -->
+<div class="modal-overlay" id="mapModalOverlay" onclick="closeMapModal(event)">
+  <div class="modal" style="max-width:700px;">
+    <button class="modal-close" onclick="document.getElementById('mapModalOverlay').classList.remove('active');document.body.style.overflow=''">✕</button>
+    <div class="modal-badge">LOCATION</div>
+    <h2>📍 이룸산업 위치</h2>
+    <p style="margin-bottom:.9rem;color:var(--muted);">전라남도 여수시 율촌면 구암길 201</p>
+    <div class="map-modal-content">
+      <iframe src="https://maps.google.com/maps?q=전라남도+여수시+율촌면+구암길+201&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="https://maps.google.com/?q=전라남도+여수시+율촌면+구암길+201" target="_blank" class="btn btn-primary" style="font-size:.83rem;padding:10px 18px;">구글 지도에서 보기</a>
+      <a href="https://map.naver.com/v5/search/전라남도 여수시 율촌면 구암길 201" target="_blank" class="btn btn-outline" style="font-size:.83rem;padding:10px 18px;">네이버 지도에서 보기</a>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✅</span>
+  <div><div id="toastTitle" style="font-weight:700;margin-bottom:2px;"></div><div id="toastMsg" style="font-size:.83rem;color:var(--muted);"></div></div>
+</div>
+
+<script>
+const modals = {
+  sequence: {
+    badge:'전문용어 · SEQUENCE', title:'시퀀스 (Sequence) 제어',
+    body:`<p>미리 정해진 <strong>순서</strong>에 따라 제어의 각 단계를 순차적으로 진행하는 자동제어 방식입니다.</p><br>
+    <ul><li>복잡한 공정 자동화에 필수적</li><li>PLC 래더 다이어그램으로 구현</li><li>세탁기처럼 급수→세탁→탈수 순서 동작이 대표적 예시</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%8B%9C%ED%80%80%EC%8A%A4_%EC%A0%9C%EC%96%B4'
+  },
+  ai: {
+    badge:'기술용어 · AI', title:'AI 기반 스마트 엔지니어링',
+    body:`<p><strong>AI(인공지능)</strong>를 산업 자동화에 접목한 스마트 엔지니어링입니다.</p><br>
+    <ul><li>예측 유지보수 — AI가 설비 이상을 사전 감지</li><li>최적화 제어 — 머신러닝으로 에너지 효율 최적화</li><li>품질 검사 — 비전 AI로 불량품 자동 검출</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5'
+  },
+  'plc-term': {
+    badge:'전문용어 · PLC', title:'PLC (Programmable Logic Controller)',
+    body:`<p>산업 자동화를 위한 디지털 컨트롤러로, 공장 기계 및 공정을 제어하는 핵심 장치입니다.</p><br>
+    <ul><li>입력부 — 센서·스위치 신호 수신</li><li>CPU — 래더 프로그램 실행</li><li>출력부 — 모터·솔레노이드·램프 제어</li><li>취급 브랜드: <strong>AB, SIEMENS, MITSUBISHI, LS</strong></li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EB%B8%94_%EB%85%BC%EB%A6%AC_%EC%A0%9C%EC%96%B4%EA%B8%B0'
+  },
+  'hmi-term': {
+    badge:'전문용어 · HMI', title:'HMI (Human Machine Interface)',
+    body:`<p>작업자가 기계·설비를 직관적으로 모니터링·제어할 수 있도록 하는 시스템입니다.</p><br>
+    <ul><li>터치스크린으로 설비 상태 확인·제어</li><li>실시간 공정 데이터·알람 현황 표시</li><li>HMI 작화 — 미믹 다이어그램 화면 설계 작업</li><li>데이터 로깅 — 이력 저장 및 트렌드 그래프</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%82%AC%EC%9A%A9%EC%9E%90_%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4'
+  },
+  highvoltage: {
+    badge:'전문용어 · 고압반', title:'고압반 (High Voltage Panel)',
+    body:`<p>고압 전기(3.3kV~22.9kV)를 받아 변압·차단·분배하는 전기설비입니다.</p><br>
+    <ul><li>수전반 — 한전으로부터 고압 전력 수전</li><li>VCB 진공차단기로 고압 회로 보호</li><li>변압기 — 고압을 저압(380V/220V)으로 변환</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%B0%B0%EC%A0%84%EB%B0%98'
+  },
+  lowvoltage: {
+    badge:'전문용어 · 저압반', title:'저압반 (Low Voltage Panel)',
+    body:`<p>변압기 공급 저압 전기(600V 이하)를 각 부하에 분배·제어하는 전기설비입니다.</p><br>
+    <ul><li>MCCB 배선용 차단기로 각 회로 보호</li><li>ELCB 누전차단기로 감전 사고 방지</li><li>분전반 — 저압을 동력·전등 회로에 분배</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%B6%84%EC%A0%84%EB%B0%98'
+  },
+  explosion: {
+    badge:'전문용어 · 방폭', title:'방폭 (Explosion-proof)',
+    body:`<p>폭발 위험 지역(가스·분진·증기)에서 전기기기의 점화원이 폭발로 이어지지 않도록 설계된 구조입니다.</p><br>
+    <ul><li>내압 방폭(d) — 내부 폭발이 외부로 전파되지 않는 구조</li><li>증가 안전 방폭(e) — 점화원 발생 가능성을 최소화</li><li>석유화학·가스 공장에 필수 적용</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%B0%A9%ED%8F%AD_%EA%B5%AC%EC%A1%B0'
+  },
+  explosion2: {
+    badge:'납품 사례 · 방폭', title:'방폭 PANEL 외함 (POSCO 납품)',
+    body:`<p>POSCO 현장에 납품된 스테인리스 스틸 방폭 외함 제어 판넬입니다.</p><br>
+    <ul><li>스테인리스 스틸 재질로 내부식성 강화</li><li>가스 위험 지역 적용 내압 방폭 구조</li><li>Schneider Electric 부품 적용</li><li>현장 설치 완료 후 촬영한 실제 납품 사례</li></ul>`,
+    wiki:null
+  },
+  automation: {
+    badge:'사업분야 · 자동화판넬', title:'자동화 판넬 제작·설치',
+    body:`<p>고객의 생산 공정에 맞는 맞춤형 전기 자동화 판넬을 설계부터 제작·설치·시운전까지 일괄 제공합니다.</p><br>
+    <ul><li>고객 요구사항 분석 및 전기 회로도 설계</li><li>판넬 제작 및 정밀 배선</li><li>현장 설치 및 PLC/HMI 프로그래밍</li><li>시운전 및 A/S 서비스</li></ul>`,
+    wiki:null
+  },
+  mcc: {
+    badge:'전문용어 · MCC', title:'MCC (Motor Control Center)',
+    body:`<p>여러 대의 전동기(모터)를 통합적으로 기동·정지·보호·제어하는 전기 제어 배전반입니다.</p><br>
+    <ul><li>복수 모터를 한 곳에서 통합 관리</li><li>차단기·마그네트·열동계전기 탑재</li><li>인버터·소프트스타터 등 속도 제어 장치 포함 가능</li><li>공장·플랜트·정수장 등 대형 시설에 사용</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%AA%A8%ED%84%B0_%EC%A0%9C%EC%96%B4_%EC%84%BC%ED%84%B0'
+  },
+  mcc2: {
+    badge:'제품 · 제어판넬', title:'시퀀스 제어 판넬',
+    body:`<p>스위치·릴레이·전자접촉기(마그네트)·열동계전기를 통합한 시퀀스 기반 전기 제어 판넬입니다.</p><br>
+    <ul><li>수동/자동 전환 스위치 탑재</li><li>전자접촉기(MC)로 모터 기동·정지 제어</li><li>열동계전기(THR)로 과부하 보호</li><li>단상 변압기로 제어 전원(AC 110V) 공급</li></ul>`,
+    wiki:null
+  },
+  pdp: {
+    badge:'전문용어 · PDP', title:'PDP Panel (Power Distribution Panel)',
+    body:`<p>변압기 또는 발전기 전력을 여러 부하에 분배하는 주 배전반입니다.</p><br>
+    <ul><li>메인 차단기(ACB 또는 MCCB)로 전체 전력 제어</li><li>각 부하별 분기 차단기로 독립 보호</li><li>전압계·전류계·전력계 등 계측기 탑재</li><li>부스바(Busbar) 방식으로 대전류 분배</li></ul>`,
+    wiki:null
+  },
+  acb: {
+    badge:'전문용어 · ACB', title:'대형 제어 판넬 (ACB Panel)',
+    body:`<p>이 판넬은 HMI 터치패널, 계측기, 차단기, 제어 스위치가 통합된 대형 전기 제어반입니다.</p><br>
+    <ul><li>HMI 터치패널로 공정 현황 실시간 모니터링</li><li>디지털 계측기로 전압·전류·전력 표시</li><li>키 스위치(열쇠)로 보안 제어</li><li>ACB(기중차단기) 기반 대전류 차단 기능</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%B0%A8%EB%8B%A8%EA%B8%B0'
+  },
+  inverter: {
+    badge:'전문용어 · 인버터', title:'인버터 판넬 (Inverter / VFD)',
+    body:`<p>교류 전동기의 속도를 주파수 변환으로 제어하는 인버터가 탑재된 판넬입니다.</p><br>
+    <ul><li>주파수 조절 → 모터 속도 정밀 제어</li><li>에너지 절약 효과 (최대 30~50% 절감)</li><li>소프트스타트로 기동 충격 감소</li><li>Micro Surge Filter 장착으로 전압 스파이크 방지</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%9D%B8%EB%B2%84%ED%84%B0'
+  },
+  relay: {
+    badge:'전문용어 · 릴레이', title:'대규모 RELAY PANEL',
+    body:`<p>수백 개의 릴레이 접점을 정밀 배선한 고밀도 전기 제어반입니다.</p><br>
+    <ul><li>릴레이(Relay) — 전기 신호로 접점을 개폐하는 전자기 스위치</li><li>소신호로 대전력 회로를 제어</li><li>타임 릴레이로 지연 동작 구현</li><li>PLC와 병행 사용하여 복잡한 로직 구현</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%A6%B4%EB%A0%88%EC%9D%B4'
+  },
+  pump: {
+    badge:'제품 · 펌프 MCC', title:'PUMP / MCC 제어 판넬',
+    body:`<p>펌프 모터를 자동으로 제어하는 MCC 방식의 전용 제어반입니다.</p><br>
+    <ul><li>수위 센서 연동 자동 기동/정지</li><li>다중 펌프 교대 운전(순서 제어)</li><li>건전 운전 방지(드라이런 보호)</li><li>유량계·압력계 연동 자동 제어</li></ul>`,
+    wiki:null
+  },
+  'plc-panel': {
+    badge:'제품 · PLC 판넬', title:'PLC 제어 판넬 (Siemens)',
+    body:`<p>Siemens S7 시리즈 PLC가 탑재된 고성능 전기 제어 판넬입니다.</p><br>
+    <ul><li>Siemens PLC 모듈 탑재</li><li>PLC 랙과 I/O 모듈 구성</li><li>현장 기기(센서·액추에이터) 배선 터미널</li><li>전원 공급 유닛 및 보호 회로 내장</li></ul>`,
+    wiki:null
+  },
+  ladder: {
+    badge:'전문용어 · 래더', title:'래더 다이어그램 (Ladder Diagram)',
+    body:`<p>PLC 프로그래밍에서 가장 널리 사용되는 그래픽 언어로, 전기 회로도와 유사한 형태로 제어 로직을 표현합니다.</p><br>
+    <ul><li>접점(Contact)과 코일(Coil)로 구성</li><li>전기 기술자가 직관적으로 이해 가능</li><li>IEC 61131-3 표준 프로그래밍 언어</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EB%9E%98%EB%8D%94_%EB%85%BC%EB%A6%AC%ED%9A%8C%EB%A1%9C'
+  },
+  'ab-plc': {
+    badge:'PLC · AB', title:'Allen-Bradley PLC (Rockwell Automation)',
+    body:`<p>미국 Rockwell Automation의 AB PLC — RSLogix 5000 / Studio 5000 기반 개발.</p><br>
+    <ul><li>ControlLogix: 대형 공정·모션 제어용</li><li>CompactLogix: 중소형 설비 제어용</li><li>화면의 래더 다이어그램은 MCM(Modbus) 통신 및 전류·전력 데이터 처리 로직</li></ul>`,
+    wiki:'https://namu.wiki/w/Allen-Bradley'
+  },
+  'ls-plc': {
+    badge:'PLC · LS', title:'LS ELECTRIC PLC (구 LG산전)',
+    body:`<p>국산 LS ELECTRIC PLC — XG5000 기반 개발. 국내 산업 현장에 최적화.</p><br>
+    <ul><li>XGI: 대형 공정 제어용 고성능 PLC</li><li>XGB: 중소형 범용 PLC</li><li>화면은 댐퍼 제어 래더 로직 (한글 태그명 사용)</li><li>국내 A/S 인프라 우수</li></ul>`,
+    wiki:'https://namu.wiki/w/LS%20ELECTRIC'
+  },
+  'siemens-plc': {
+    badge:'PLC · SIEMENS', title:'SIEMENS S7 PLC (TIA Portal)',
+    body:`<p>독일 SIEMENS S7 시리즈 PLC — TIA Portal 기반 개발.</p><br>
+    <ul><li>S7-1500: 최신 고성능 PLC</li><li>S7-1200: 소형 컴팩트 PLC</li><li>자동차·화학·제약 산업 고정밀 자동화 강점</li><li>유럽 표준 IEC 61131-3 완전 지원</li></ul>`,
+    wiki:'https://namu.wiki/w/Siemens'
+  },
+  'melsec-plc': {
+    badge:'PLC · MITSUBISHI', title:'MELSEC PLC (GX Works)',
+    body:`<p>일본 Mitsubishi Electric MELSEC 시리즈 — GX Works / GX Developer 기반 개발.</p><br>
+    <ul><li>iQ-R: 최신 플래그십 고성능 PLC</li><li>Q 시리즈: 범용 고성능</li><li>화면은 SEAH 현장용 알람 FBD 래더 로직</li><li>반도체·디스플레이 고속 응답 분야 강세</li></ul>`,
+    wiki:'https://namu.wiki/w/%EB%AF%B8%EC%93%B0%EB%B9%84%EC%8B%9C%20%EC%A0%84%EA%B8%B0'
+  },
+  electrical: {
+    badge:'사업분야 · 기자재', title:'전기 기자재 도소매',
+    body:`<p>산업 현장에 필요한 전기 기자재를 신속하게 공급합니다.</p><br>
+    <ul><li>방폭 조명·스위치·모터</li><li>차단기·전자접촉기·열동계전기</li><li>케이블·케이블 트레이·전선관</li><li>센서류: 근접 센서·광센서·리미트 스위치</li><li>등기구: LED 조명·산업용 투광기</li></ul>`,
+    wiki:null
+  },
+  'serious-accident': {
+    badge:'법률용어', title:'중대재해처벌법',
+    body:`<p>사업주·경영책임자가 안전·보건 의무 위반으로 중대재해 발생 시 형사처벌을 규정한 법률입니다.</p><br>
+    <ul><li>시행: 2022년 1월 27일</li><li>중대산업재해: 사망 1명 이상, 6개월 이상 치료 부상 2명 이상 등</li><li>처벌: 경영책임자 1년 이상 징역 또는 10억원 이하 벌금</li></ul>`,
+    wiki:'https://ko.wikipedia.org/wiki/%EC%A4%91%EB%8C%80%EC%9E%AC%ED%95%B4_%EC%B2%98%EB%B2%8C_%EB%93%B1%EC%97%90_%EA%B4%80%ED%95%9C_%EB%B2%95%EB%A5%A0'
+  },
+  safety1:{badge:'안전 방침 01',title:'생명 보호 · 안전 작업환경 조성',body:`<ul><li>근로자의 생명 보호를 최우선 목표로 설정</li><li>물리적·화학적 위험요인을 제거한 쾌적한 근무 환경 조성</li><li>단순한 법적 의무를 넘어 기업 가치의 핵심으로 삼음</li></ul>`,wiki:null},
+  safety2:{badge:'안전 방침 02',title:'안전보건관리체계 구축',body:`<ul><li>안전보건 전담 인력 배치</li><li>안전 장비 및 보호구 충분히 확보</li><li>위험성 평가 정기 실시</li><li>안전보건 예산 별도 편성</li></ul>`,wiki:null},
+  safety3:{badge:'안전 방침 03',title:'안전보건 목표 및 실행계획',body:`<ul><li>연간 안전보건 목표 수립 (재해율, 아차사고 건수 등)</li><li>월별/분기별 실행계획 이행 점검</li><li>미달 시 원인 분석 및 개선 조치</li></ul>`,wiki:null},
+  safety4:{badge:'안전 방침 04',title:'근로자 참여 및 위험요인 개선',body:`<ul><li>근로자 위험요인 발굴 제안 제도 운영</li><li>발굴된 위험요인 100% 개선 원칙</li><li>안전 교육 및 TBM(Tool Box Meeting) 정기 실시</li></ul>`,wiki:null},
+  safety5:{badge:'안전 방침 05',title:'공급자·계약자 안전 요구사항',body:`<ul><li>협력업체 선정 시 안전보건 수준 평가</li><li>안전작업계획서 작성·사전 검토</li><li>안전작업허가서(PTW) 발행 절차 준수</li><li>합동 안전 점검 정기 실시</li></ul>`,wiki:null}
+};
+
+function openModal(key) {
+  const d = modals[key]; if(!d) return;
+  document.getElementById('modalBadge').textContent = d.badge;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalBody').innerHTML = d.body;
+  document.getElementById('modalWiki').innerHTML = d.wiki
+    ? `<a href="${d.wiki}" target="_blank" rel="noopener noreferrer">📖 나무위키 / 위키백과에서 더 알아보기 ↗</a>` : '';
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) closeModalBtn(); }
+function closeModalBtn() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow=''; }
+
+function openImgModal(src, caption) {
+  document.getElementById('imgModalSrc').src = src;
+  document.getElementById('imgModalCaption').textContent = caption;
+  document.getElementById('imgModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeImgModal(e) {
+  if(e.target===document.getElementById('imgModalOverlay')) {
+    document.getElementById('imgModalOverlay').classList.remove('active');
+    document.body.style.overflow='';
+  }
+}
+
+function openMapModal() {
+  document.getElementById('mapModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeMapModal(e) {
+  if(e.target===document.getElementById('mapModalOverlay')) {
+    document.getElementById('mapModalOverlay').classList.remove('active');
+    document.body.style.overflow='';
+  }
+}
+
+// ※ Vercel 배포 후 실제 URL로 교체 (예: https://irum-notify.vercel.app/api/notify)
+const KAKAO_NOTIFY_URL = 'https://irum-1.vercel.app/api/notify';
+
+async function submitForm(e) {
+  e.preventDefault();
+
+  const btn     = document.getElementById('submitBtn');
+  const company = document.getElementById('company').value.trim();
+  const name    = document.getElementById('name').value.trim();
+  const phone   = document.getElementById('phone').value.trim();
+  const email   = document.getElementById('email').value.trim() || '미기재';
+  const message = document.getElementById('message').value.trim();
+
+  btn.disabled    = true;
+  btn.textContent = '⏳ 전송 중...';
+
+  // ── 1) 이메일 전송 (Web3Forms) ──
+  const emailPayload = {
+    access_key: document.querySelector('[name="access_key"]').value,
+    subject:    `[이룸산업 견적문의] ${company} - ${name}`,
+    from_name:  '이룸산업 웹사이트',
+    redirect:   'false',
+    to:         'limck2168@naver.com',
+    company, name, phone, email, message,
+  };
+
+  try {
+    const emailRes  = await fetch('https://api.web3forms.com/submit', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body:    JSON.stringify(emailPayload),
+    });
+    const emailData = await emailRes.json();
+    if (!emailData.success) throw new Error(emailData.message);
+
+    // ── 2) 카카오톡 알림 (Vercel 함수) ──
+    if (!KAKAO_NOTIFY_URL.includes('YOUR_VERCEL')) {
+      fetch(KAKAO_NOTIFY_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ company, name, phone, email, message }),
+      }).catch(() => {}); // 카카오 실패해도 이메일 전송은 유지
+    }
+
+    showToast('✅', '전송 완료!', '이메일 및 카카오톡으로 알림이 발송되었습니다.');
+    document.getElementById('inquiryForm').reset();
+  } catch (err) {
+    showToast('❌', '전송 실패', '잠시 후 다시 시도해주세요.');
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '✉️ 견적 문의 전송하기';
+  }
+}
+
+function showToast(icon, title, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = icon;
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 4000);
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') {
+    ['modalOverlay','imgModalOverlay','mapModalOverlay'].forEach(id=>{
+      document.getElementById(id).classList.remove('active');
+    });
+    document.body.style.overflow='';
+  }
+});
+
+window.addEventListener('scroll', ()=>{
+  document.querySelector('nav').style.background =
+    window.scrollY > 50 ? 'rgba(6,15,30,0.97)' : 'rgba(6,15,30,0.92)';
+});
+
+const heroVideo = document.querySelector('.hero-video');
+if (heroVideo) {
+  heroVideo.loop = true;
+  heroVideo.addEventListener('ended', () => {
+    heroVideo.currentTime = 0;
+    heroVideo.play();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) heroVideo.play();
+  });
+}
+</script>
+</body>
+</html>
